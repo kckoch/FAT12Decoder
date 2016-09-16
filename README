@@ -1,4 +1,7 @@
-TO UPLOAD A FILE TO REPO
-1) GIT ADD <FILENAME>
-2) GIT COMMIT -M 'CATS.C'
-3) GIT PUSH ORIGIN MASTER
+Kyra Koch and Dillon Gorsen
+
+DESIGN
+The first thing we do is copy the disc file into memory.  From there, we copy and decode the FAT into a global array.  Then, we walk through the root directory and store all of the entries, be it file or subdirectory, into an array of size 224, using a struct called directory_t that holds certain key bits of the directory entry.  If the function encounters a subdirectory, it recursively calls the subdirectory and walks through that directory as well, storing the entries in the array.  The function ends as soon as it encounters an empty entry.  Afterwards, we print all of the files we found.  Then, we walk through the array and actually write out those files that are not a subdirectory.
+
+KNOWN PROBLEMS
+Our array directory can only hold up to 224 entries, this could be easily remedied, but we are looking to not waste space.  That means that our program only keeps track of 224 files and/or subdirectories.  If the file's path, including parent directories, name, and extension, exceeds 1000 characters, it will get cut off and will not be written correctly.  Again, this could be fixed, but we deemed it uneccessary in order to save space.  We also seem to lose one file, and we aren't quite sure why.  It may be because the file has a name after the deleted indicator, 0xe5?  We decided that, since finals are coming it, one point out of 100 is worth the loss.

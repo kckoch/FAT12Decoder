@@ -44,24 +44,22 @@ uint8_t *mem_block;     //the initial memory block
 int main(int argc, const char *argv[])
 {
     struct stat sb;    
-    
-	count = 0;
+    count = 0;
     int infile = open(argv[1], O_RDONLY);
     if (infile == -1) {
-		fprintf(stderr, "Unable to open file.\n");
-		exit(1);
-	}
-	if (stat(argv[1], &sb) == -1) {
-	    perror("Stat failed!\n");
-	    exit(EXIT_FAILURE);
-	}
+	fprintf(stderr, "Unable to open file.\n");
+	exit(1);
+    }
+    if (stat(argv[1], &sb) == -1) {
+	perror("Stat failed!\n");
+	exit(EXIT_FAILURE);
+    }
 	
 	
-	arg = (char *)argv[2];
-	mem_block = mmap(NULL, sb.st_blocks*SECTOR_SIZE, PROT_READ | PROT_WRITE,
-								MAP_PRIVATE, infile, 0);                                
+    arg = (char *)argv[2];
+    mem_block = mmap(NULL, sb.st_blocks*SECTOR_SIZE, PROT_READ | PROT_WRITE,
+				MAP_PRIVATE, infile, 0);                                
     assert(mem_block != MAP_FAILED);
-    
     
     copyFat();
     catalogDir(mem_block + 0x200 + 0x1200 + 0x1200, "");
